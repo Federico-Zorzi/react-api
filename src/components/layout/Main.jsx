@@ -24,7 +24,7 @@ export default function Main() {
 
   const [newArticlesList, setNewArticlesList] = useState([]);
   function fetchArticles() {
-    fetch("https://localhost:3000/posts/")
+    fetch("http://localhost:3000/posts/")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
