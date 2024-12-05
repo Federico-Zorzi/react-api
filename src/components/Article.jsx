@@ -24,7 +24,7 @@ export default function Article({
 
           <hr />
 
-          <div className="card-article">
+          <div className="card-article d-flex justify-content-between">
             <div className="mb-3">
               <h5 className="card-title fw-semibold">{title}</h5>
               <span className="badge text-bg-success category me-3">
@@ -46,19 +46,8 @@ export default function Article({
             </div>
           </div>
 
-          {/* DELETE ARTICLE FUNCTION */}
-          <div className="delete-article mt-1 ms-auto">
-            <button
-              className="btn btn-danger "
-              type="button"
-              onClick={() => deleteFunction(idArticle)}
-            >
-              <i className="fa-solid fa-trash"></i>
-            </button>
-          </div>
-
-          {/* MODIFY ARTICLE TITLE FUNCTION */}
-          <div className="modify-title mt-1 ms-auto">
+          <div className="article-modification mt-1 ms-auto">
+            {/* MODIFY ARTICLE TITLE FUNCTION */}
             <input
               type="text"
               id="floatingInput"
@@ -68,13 +57,22 @@ export default function Article({
             />
 
             <button
-              className="btn btn-success ms-2"
+              className="btn btn-success mx-2"
               type="button"
               onClick={() =>
-                modifyFunction(index, modifyTitleInput, setModifyTitleInput)
+                modifyFunction(idArticle, modifyTitleInput, setModifyTitleInput)
               }
             >
               <i className="fa-solid fa-pen"></i>
+            </button>
+
+            {/* DELETE ARTICLE FUNCTION */}
+            <button
+              className="btn btn-danger "
+              type="button"
+              onClick={() => deleteFunction(idArticle)}
+            >
+              <i className="fa-solid fa-trash"></i>
             </button>
           </div>
         </div>

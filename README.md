@@ -11,7 +11,7 @@ E’ arrivato il momento di mettere insieme tutti i concetti appresi
 
 BONUS:
 Durante il submit del form, assicuriamoci che questi dati vengano inviati al backend e correttamente salvati.
-Suggerimento: gli oggetti inviati nel body relle richieste vanno trasformati in stringhe con JSON.stringify .
+Suggerimento: gli oggetti inviati nel body delle richieste vanno trasformati in stringhe con JSON.stringify .
 
 Esempio:
 

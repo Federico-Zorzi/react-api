@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 
 import Article from "../Article";
 
-/* import articles from "../../assets/data/articles"; */
-
 import { categories } from "../../assets/data/articleCategories";
 
 export default function Main() {
@@ -19,9 +17,8 @@ export default function Main() {
 
   const [formData, setformData] = useState(defaultArticle);
 
-  /* const [articlesList, setArticlesList] = useState(articles); */
-
   const [newArticlesList, setNewArticlesList] = useState([]);
+
   function fetchArticles() {
     fetch("http://localhost:3000/posts/")
       .then((res) => res.json())
@@ -48,43 +45,34 @@ export default function Main() {
     setformData({ ...formData, tags: newTags });
   };
 
-  /*  const handleSubmit = (e) => {
+  const fetchHandleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      !formData.title ||
-      !formData.author ||
-      !formData.content ||
-      formData.category === ""
-    ) {
-      alert("Completa tutti i campi per creare il nuovo articolo");
-      return;
-    }
-
-    if (!formData.image) formData.image = "img-default.svg";
-
-    const updatedList = [
-      ...articlesList,
-      {
+    fetch("http://localhost:3000/posts/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         title: formData.title,
         author: formData.author,
         content: formData.content,
-        image: formData.image,
+        image:
+          "/images/" + (formData.image ? formData.image : "img-default.svg"),
         category: formData.category,
         isPublished: formData.isPublished,
         tags: formData.tags,
-      },
-    ];
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const { newPost, posts } = data;
+        setNewArticlesList(posts);
 
-    console.log(updatedList);
+        // reset input fields
+        setformData(defaultArticle);
+      });
+  };
 
-    setArticlesList(updatedList);
-
-    // reset input fields
-    setformData(defaultArticle);
-  }; */
-
-  const deleteArticle = (id) => {
+  const fetchDeleteArticle = (id) => {
     fetch("http://localhost:3000/posts/" + id, { method: "DELETE" })
       .then((res) => res.json())
       .then((data) => {
@@ -94,19 +82,22 @@ export default function Main() {
         setNewArticlesList(newPostList);
       });
   };
-  /*   const modifyArticle = (index, modifyTitleInput, setModifyTitleInput) => {
-    console.log(index, modifyTitleInput);
 
-    const updatedList = [...articlesList];
-
-    const articleTomodify = updatedList.find((article, i) => i === index);
-    articleTomodify.title = modifyTitleInput;
-
-    setArticlesList(updatedList);
-
-    // reset input fields
-    setModifyTitleInput("");
-  }; */
+  const fetchModifyArticle = (id, modifyTitleInput, setModifyTitleInput) => {
+    fetch("http://localhost:3000/posts/" + id, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: modifyTitleInput,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const { postModified, posts } = data;
+        setNewArticlesList(posts);
+        setModifyTitleInput("");
+      });
+  };
 
   useEffect(() => {
     if (formData.isPublished) alert("L'articolo verrà pubblicato");
@@ -117,7 +108,7 @@ export default function Main() {
       <div className="container">
         {/* FORM SECTION */}
         <section className="form-section">
-          <form /* onSubmit={handleSubmit} */>
+          <form onSubmit={fetchHandleSubmit}>
             <div className="row">
               {/* INPUT FOR ARTICLE TITLE */}
               <div className="col-6">
@@ -211,28 +202,9 @@ export default function Main() {
                 </div>
               </div>
 
-              {/* INPUT FOR ARTICLE PUBLISHED */}
-              <div className="col">
-                <div className="mb-3">
-                  <label htmlFor="articlePublish" className="form-label">
-                    Pubblica
-                  </label>
-                  <div>
-                    <input
-                      id="articlePublish"
-                      className="form-check-input mt-0"
-                      type="checkbox"
-                      checked={formData.isPublished}
-                      onChange={handleChange}
-                      name="isPublished"
-                    />
-                  </div>
-                </div>
-              </div>
-
               {/* INPUT FOR ARTICLE TAGS */}
               <div className="col">
-                <label htmlFor="articleTags" className="form-label">
+                <label htmlFor="articleTags" className="form-label me-3">
                   Tags
                 </label>
 
@@ -294,6 +266,25 @@ export default function Main() {
               </div>
             </div>
 
+            {/* INPUT FOR ARTICLE PUBLISHED */}
+            <div className="col">
+              <div className="mb-3">
+                <label htmlFor="articlePublish" className="form-label">
+                  Pubblica
+                </label>
+                <div>
+                  <input
+                    id="articlePublish"
+                    className="form-check-input mt-0"
+                    type="checkbox"
+                    checked={formData.isPublished}
+                    onChange={handleChange}
+                    name="isPublished"
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* BUTTON FOR SUBMIT */}
             <button type="submit" className="btn btn-primary">
               Submit
@@ -303,23 +294,6 @@ export default function Main() {
 
         {/* ARTICLE SECTION */}
         <section className="article-section">
-          {/* {articlesList
-            .filter((article) => article.isPublished)
-            .map((article, index) => (
-              <Article
-                key={index}
-                index={index}
-                title={article.title}
-                content={article.content}
-                author={article.author}
-                image={article.image}
-                category={article.category}
-                tags={article.tags}
-                deleteFunction={deleteArticle}
-                modifyFunction={modifyArticle}
-              ></Article>
-            ))} */}
-
           {newArticlesList.map((article, index) => (
             <Article
               key={index}
@@ -331,7 +305,8 @@ export default function Main() {
               image={"http://localhost:3000/" + article.image}
               category={article.category}
               tags={article.tags}
-              deleteFunction={deleteArticle}
+              deleteFunction={fetchDeleteArticle}
+              modifyFunction={fetchModifyArticle}
             ></Article>
           ))}
         </section>
