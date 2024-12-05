@@ -1,0 +1,15 @@
+.card-body hr {
+  margin: 0.7rem 0;
+}
+
+.card-user img {
+  max-width: 80px;
+}
+
+.card-user .username {
+  color: rgb(153, 152, 152);
+}
+
+.card-article .category {
+  font-size: 0.8rem;
+}
