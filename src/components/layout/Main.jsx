@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 
 import Article from "../Article";
 
+/* da togliere */
 import articles from "../../assets/data/articles";
+
 import { categories } from "../../assets/data/articleCategories";
 
 export default function Main() {
@@ -19,6 +21,20 @@ export default function Main() {
   const [formData, setformData] = useState(defaultArticle);
 
   const [articlesList, setArticlesList] = useState(articles);
+
+  const [newArticlesList, setNewArticlesList] = useState([]);
+  function fetchArticles() {
+    fetch("https://localhost:3000/posts/")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+
+        /* setNewArticlesList(data);
+        console.log(newArticlesList); */
+      });
+  }
+  // Solo al primo rendering
+  useEffect(fetchArticles, []);
 
   const handleChange = (e) => {
     const value =
