@@ -90,6 +90,14 @@ export default function Main() {
     setArticlesList(updatedList);
   }; */
 
+  const deleteArticle = (id) => {
+    fetch("http://localhost:3000/posts/" + id, { method: "DESTROY" })
+      .then((res) => res.json())
+      .then((data) => {
+        const { newPostList } = data;
+        setNewArticlesList(newPostList);
+      });
+  };
   /*   const modifyArticle = (index, modifyTitleInput, setModifyTitleInput) => {
     console.log(index, modifyTitleInput);
 
@@ -226,7 +234,7 @@ export default function Main() {
                 </div>
               </div>
 
-              {/* TO DEVELOP - INPUT FOR ARTICLE TAGS */}
+              {/* INPUT FOR ARTICLE TAGS */}
               <div className="col">
                 <label htmlFor="articleTags" className="form-label">
                   Tags
@@ -320,12 +328,14 @@ export default function Main() {
             <Article
               key={index}
               index={index}
+              idArticle={article.id}
               title={article.title}
               content={article.content}
               author={article.author}
               image={"http://localhost:3000/" + article.image}
               category={article.category}
               tags={article.tags}
+              deleteFunction={deleteArticle}
             ></Article>
           ))}
         </section>
