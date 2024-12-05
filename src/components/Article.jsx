@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function Article({
   index,
-  id,
+  idArticle,
   title,
   content,
   author,
@@ -51,7 +51,7 @@ export default function Article({
             <button
               className="btn btn-danger "
               type="button"
-              onClick={() => deleteFunction(id)}
+              onClick={() => deleteFunction(idArticle)}
             >
               <i className="fa-solid fa-trash"></i>
             </button>

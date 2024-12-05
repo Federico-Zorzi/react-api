@@ -84,17 +84,13 @@ export default function Main() {
     setformData(defaultArticle);
   }; */
 
-  /*   const deleteArticle = (index) => {
-    const updatedList = articlesList.filter((article, i) => i !== index);
-
-    setArticlesList(updatedList);
-  }; */
-
   const deleteArticle = (id) => {
-    fetch("http://localhost:3000/posts/" + id, { method: "DESTROY" })
+    fetch("http://localhost:3000/posts/" + id, { method: "DELETE" })
       .then((res) => res.json())
       .then((data) => {
-        const { newPostList } = data;
+        const { postDeleted, posts } = data;
+        const newPostList = posts;
+
         setNewArticlesList(newPostList);
       });
   };
