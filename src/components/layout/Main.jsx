@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 
 import Article from "../Article";
 
-/* da togliere */
-import articles from "../../assets/data/articles";
+/* import articles from "../../assets/data/articles"; */
 
 import { categories } from "../../assets/data/articleCategories";
 
@@ -20,20 +19,18 @@ export default function Main() {
 
   const [formData, setformData] = useState(defaultArticle);
 
-  const [articlesList, setArticlesList] = useState(articles);
+  /* const [articlesList, setArticlesList] = useState(articles); */
 
   const [newArticlesList, setNewArticlesList] = useState([]);
   function fetchArticles() {
     fetch("http://localhost:3000/posts/")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-
-        /* setNewArticlesList(data);
-        console.log(newArticlesList); */
+        const { newPostList, listLength } = data;
+        setNewArticlesList(newPostList);
       });
   }
-  // Solo al primo rendering
+
   useEffect(fetchArticles, []);
 
   const handleChange = (e) => {
@@ -51,7 +48,7 @@ export default function Main() {
     setformData({ ...formData, tags: newTags });
   };
 
-  const handleSubmit = (e) => {
+  /*  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (
@@ -83,17 +80,17 @@ export default function Main() {
 
     setArticlesList(updatedList);
 
-    /* reset input fields */
+    // reset input fields
     setformData(defaultArticle);
-  };
+  }; */
 
-  const deleteArticle = (index) => {
+  /*   const deleteArticle = (index) => {
     const updatedList = articlesList.filter((article, i) => i !== index);
 
     setArticlesList(updatedList);
-  };
+  }; */
 
-  const modifyArticle = (index, modifyTitleInput, setModifyTitleInput) => {
+  /*   const modifyArticle = (index, modifyTitleInput, setModifyTitleInput) => {
     console.log(index, modifyTitleInput);
 
     const updatedList = [...articlesList];
@@ -103,9 +100,9 @@ export default function Main() {
 
     setArticlesList(updatedList);
 
-    /* reset input fields */
+    // reset input fields
     setModifyTitleInput("");
-  };
+  }; */
 
   useEffect(() => {
     if (formData.isPublished) alert("L'articolo verrà pubblicato");
@@ -116,7 +113,7 @@ export default function Main() {
       <div className="container">
         {/* FORM SECTION */}
         <section className="form-section">
-          <form onSubmit={handleSubmit}>
+          <form /* onSubmit={handleSubmit} */>
             <div className="row">
               {/* INPUT FOR ARTICLE TITLE */}
               <div className="col-6">
@@ -302,7 +299,7 @@ export default function Main() {
 
         {/* ARTICLE SECTION */}
         <section className="article-section">
-          {articlesList
+          {/* {articlesList
             .filter((article) => article.isPublished)
             .map((article, index) => (
               <Article
@@ -317,7 +314,20 @@ export default function Main() {
                 deleteFunction={deleteArticle}
                 modifyFunction={modifyArticle}
               ></Article>
-            ))}
+            ))} */}
+
+          {newArticlesList.map((article, index) => (
+            <Article
+              key={index}
+              index={index}
+              title={article.title}
+              content={article.content}
+              author={article.author}
+              image={"http://localhost:3000/" + article.image}
+              category={article.category}
+              tags={article.tags}
+            ></Article>
+          ))}
         </section>
       </div>
     </main>

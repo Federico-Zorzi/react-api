@@ -19,22 +19,30 @@ export default function Article({
         <div className="card-body d-flex flex-column">
           <div className="card-user ms-auto">
             <span className="username fst-italic me-3">{author}</span>
-            <img src={image} alt="" />
           </div>
 
           <hr />
 
           <div className="card-article">
-            <h5 className="card-title fw-semibold">{title}</h5>
-            <span className="badge text-bg-success category me-3">
-              {category}
-            </span>
-            <p className="card-text">{content}</p>
-            {tags.map((tag, index) => (
-              <span key={index} className="badge text-bg-primary category me-3">
-                #{tag}
+            <div className="mb-3">
+              <h5 className="card-title fw-semibold">{title}</h5>
+              <span className="badge text-bg-success category me-3">
+                {category}
               </span>
-            ))}
+              <p className="card-text my-3">{content}</p>
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="badge text-bg-primary category me-3"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+
+            <div>
+              <img src={image} alt="" className="photo img-fluid" />
+            </div>
           </div>
 
           {/* DELETE ARTICLE FUNCTION */}
