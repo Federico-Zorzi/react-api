@@ -71,12 +71,12 @@ export default function Article({
               className="btn btn-danger "
               type="button"
               data-bs-toggle="modal"
-              data-bs-target="#modalDeleteArticle"
+              data-bs-target={"#" + idArticle}
             >
               <i className="fa-solid fa-trash"></i>
             </button>
 
-            <div className="modal fade" id="modalDeleteArticle" tabIndex="-1">
+            <div className="modal fade" id={idArticle} tabIndex="-1">
               <div className="modal-dialog">
                 <div className="modal-content">
                   <div className="modal-header">
