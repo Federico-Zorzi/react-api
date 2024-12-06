@@ -70,10 +70,48 @@ export default function Article({
             <button
               className="btn btn-danger "
               type="button"
-              onClick={() => deleteFunction(idArticle)}
+              data-bs-toggle="modal"
+              data-bs-target="#modalDeleteArticle"
             >
               <i className="fa-solid fa-trash"></i>
             </button>
+
+            <div className="modal fade" id="modalDeleteArticle" tabIndex="-1">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">
+                      Stai eliminando l'articolo "{title}"
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <p>Vuoi eliminare l'articolo selezionato?</p>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Annulla
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      data-bs-dismiss="modal"
+                      onClick={() => deleteFunction(idArticle)}
+                    >
+                      Elimina
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
