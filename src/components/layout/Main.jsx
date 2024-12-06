@@ -5,6 +5,8 @@ import Article from "../Article";
 import { categories } from "../../assets/data/articleCategories";
 
 export default function Main() {
+  const serverUrl = import.meta.env.VITE_SERVER_URL;
+
   const defaultArticle = {
     title: "",
     content: "",
@@ -20,7 +22,7 @@ export default function Main() {
   const [newArticlesList, setNewArticlesList] = useState([]);
 
   function fetchArticles() {
-    fetch("http://localhost:3000/posts/")
+    fetch(serverUrl)
       .then((res) => res.json())
       .then((data) => {
         const { newPostList, listLength } = data;
@@ -48,7 +50,7 @@ export default function Main() {
   const fetchHandleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:3000/posts/", {
+    fetch(serverUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -73,7 +75,7 @@ export default function Main() {
   };
 
   const fetchDeleteArticle = (id) => {
-    fetch("http://localhost:3000/posts/" + id, { method: "DELETE" })
+    fetch(serverUrl + id, { method: "DELETE" })
       .then((res) => res.json())
       .then((data) => {
         const { postDeleted, posts } = data;
@@ -84,7 +86,7 @@ export default function Main() {
   };
 
   const fetchModifyArticle = (id, modifyTitleInput, setModifyTitleInput) => {
-    fetch("http://localhost:3000/posts/" + id, {
+    fetch(serverUrl + id, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -204,7 +206,10 @@ export default function Main() {
 
               {/* INPUT FOR ARTICLE TAGS */}
               <div className="col">
-                <label htmlFor="articleTags" className="form-label me-3">
+                <label
+                  htmlFor="articleTags"
+                  className="form-label me-3 d-block"
+                >
                   Tags
                 </label>
 
